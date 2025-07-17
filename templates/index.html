@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Medical Report Extractor</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    header {
+      background-color: #1976d2;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    h2 {
+      margin-top: 40px;
+      color: #1976d2;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+    }
+
+    form {
+      margin: 30px 0;
+      padding: 20px;
+      background: #f1f3f6;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    input[type="file"] {
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #1976d2;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #125ca4;
+    }
+
+    table.table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .table th,
+    .table td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .table th {
+      background-color: #f2f2f2;
+      color: #333;
+    }
+
+    ul {
+      margin-top: 15px;
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
+    pre {
+      background: #2b2b2b;
+      color: #e0e0e0;
+      padding: 15px;
+      border-radius: 6px;
+      overflow: auto;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Medical Report Extractor</h1>
+    <p>Upload your blood test PDF to extract insights, results, and more.</p>
+  </header>
+
+  <main>
+
+    <form method="POST" enctype="multipart/form-data" style="text-align: center;">
+      <div style="margin-bottom: 20px;">
+        <label for="pdf" style="display: block; margin-bottom: 10px;"><strong>Select your Blood Report PDF:</strong></label>
+        <input type="file" name="pdf" id="pdf" accept=".pdf" required 
+               style="padding: 10px; border: 2px dashed #1976d2; border-radius: 8px; background: #f8f9fa; margin: 10px 0;">
+      </div>
+      <button type="submit" style="background: #1976d2; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: background 0.3s;">
+        Upload and Analyze Report
+      </button>
+    </form>
+
+    {% if findings and findings[0] and 'Error:' in findings[0] %}
+      <div style="background-color: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #c62828;">
+        <strong>⚠️ {{ findings[0] }}</strong>
+      </div>
+    {% endif %}
+
+    {% if table %}
+      <h2>Extracted Results</h2>
+      {{ table | safe }}
+    {% endif %}
+
+    {% if findings %}
+      <h2>First-Order Findings</h2>
+      <ul>
+        {% for item in findings %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if result_json %}
+      <h2>Clinical Rules Health Insights</h2>
+      <pre>{{ result_json }}</pre>
+    {% endif %}
+
+    {% if openai_insights %}
+      <h2>OpenAI Health Insights</h2>
+      <pre>{{ openai_insights }}</pre>
+    {% endif %}
+
+    {% if similarity_result %}
+      <h2>Similarity Result between clinical and OpenAI insights</h2>
+      <pre>{{ similarity_result }}</pre>
+    {% endif %}
+  </main>
+</body>
+</html>

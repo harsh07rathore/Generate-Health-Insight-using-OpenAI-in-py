@@ -3,6 +3,10 @@ import pandas as pd
 import re
 import json
 import openai
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def run_analysis(pdf_path):
     full_text = ""

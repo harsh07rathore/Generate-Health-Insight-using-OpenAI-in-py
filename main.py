@@ -247,7 +247,7 @@ def run_analysis(pdf_path):
         "NarrativeExplanation": narrative_explanation
     }
 
-    client = openai.OpenAI(api_key="your_openai_api_key_here")
+    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     prompt = f"""
     You are a medical assistant AI. Analyze the following first-order lab findings:
@@ -316,18 +316,3 @@ def run_analysis(pdf_path):
         "similarity_result": similarity_result
     }
 
-
-if __name__ == "__main__":
-    
-    test_pdf_path = "20231021_PreetpalBloodReport_Detailed_0202WJ007460202_228745k.pdf"
-    results = run_analysis(test_pdf_path)
-    print("First Order Findings:")
-    print(results["first_order_findings"])
-    print("\nSecond Order Insights:")
-    print(results["result_json"].get("SecondOrderInsights"))
-    print("\nCausal Hypotheses:")
-    print(results["result_json"].get("CausalHypotheses"))
-    print("\nOpenAI Insights:")
-    print(results["OpenAI_insights"])
-    print("\nSimilarity Result:")
-    print(results["similarity_result"])

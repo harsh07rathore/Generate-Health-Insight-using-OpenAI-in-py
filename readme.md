@@ -21,7 +21,7 @@ Given a blood report PDF (e.g., from labs like Agilus, Thyrocare, SRL, etc.), th
 
 ### 1. Install Dependencies
 ```bash
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 ### 2. Environment Variables

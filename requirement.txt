@@ -1,5 +1,0 @@
-flask>=2.0
-python-dotenv>=0.21
-pdfplumber
-pandas
-openai
